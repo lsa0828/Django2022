@@ -17,7 +17,7 @@ class TestView(TestCase):
         # title이 정상적으로 보이는지
         self.assertEqual(soup.title.text, 'Blog')
 
-        # navaar가 정상적으로 보이는지
+        # navbar가 정상적으로 보이는지
         navbar=soup.nav
         self.assertIn('Blog', navbar.text)
         self.assertIn('AboutMe', navbar.text)
@@ -47,7 +47,14 @@ class TestView(TestCase):
         response = self.client.get(post_001.get_absolute_url())
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
+
         navbar = soup.nav
         self.assertIn('Blog', navbar.text)
         self.assertIn('AboutMe', navbar.text)
-        
+
+        self.assertIn(post_001.title, soup.title.text)
+
+        main_area = soup.find('div', id='main-area')
+        post_area = main_area.find('div', id='post-area')
+        self.assertIn(post_001.title, post_area.text)
+        self.assertIn(post_001.content, post_area.text)
