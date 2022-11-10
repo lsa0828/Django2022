@@ -42,7 +42,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL) # CASCADE
 
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, null=True, blank=True)
 
     def __str__(self): # /admin/blog/post/의 목록 제목
         return f'[{self.pk}]{self.title}:: {self.author} : {self.created_at}'
